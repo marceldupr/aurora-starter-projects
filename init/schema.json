@@ -1,0 +1,154 @@
+{
+  "tables": [
+    {
+      "slug": "projects",
+      "name": "Projects",
+      "icon": "Folder",
+      "fields": [
+        { "slug": "name", "name": "Name", "field_type": "text", "required": true },
+        { "slug": "description", "name": "Description", "field_type": "text", "required": false },
+        {
+          "slug": "status",
+          "name": "Status",
+          "field_type": "select",
+          "required": false,
+          "validation": { "options": ["active", "on_hold", "completed"] }
+        },
+        { "slug": "created_at", "name": "Created At", "field_type": "datetime", "required": false }
+      ]
+    },
+    {
+      "slug": "sprints",
+      "name": "Sprints",
+      "icon": "Trophy",
+      "fields": [
+        { "slug": "name", "name": "Name", "field_type": "text", "required": true },
+        {
+          "slug": "project_id",
+          "name": "Project",
+          "field_type": "relation",
+          "required": false,
+          "relation_table_slug": "projects"
+        },
+        { "slug": "start_date", "name": "Start Date", "field_type": "date", "required": false },
+        { "slug": "end_date", "name": "End Date", "field_type": "date", "required": false },
+        {
+          "slug": "status",
+          "name": "Status",
+          "field_type": "select",
+          "required": false,
+          "validation": { "options": ["planned", "active", "completed"] }
+        }
+      ]
+    },
+    {
+      "slug": "tasks",
+      "name": "Tasks",
+      "icon": "CheckSquare",
+      "fields": [
+        { "slug": "name", "name": "Name", "field_type": "text", "required": true },
+        { "slug": "description", "name": "Description", "field_type": "text", "required": false },
+        {
+          "slug": "project_id",
+          "name": "Project",
+          "field_type": "relation",
+          "required": false,
+          "relation_table_slug": "projects"
+        },
+        {
+          "slug": "sprint_id",
+          "name": "Sprint",
+          "field_type": "relation",
+          "required": false,
+          "relation_table_slug": "sprints"
+        },
+        {
+          "slug": "status",
+          "name": "Status",
+          "field_type": "select",
+          "required": false,
+          "validation": { "options": ["todo", "in_progress", "review", "done"] }
+        },
+        {
+          "slug": "priority",
+          "name": "Priority",
+          "field_type": "select",
+          "required": false,
+          "validation": { "options": ["low", "medium", "high"] }
+        },
+        { "slug": "created_at", "name": "Created At", "field_type": "datetime", "required": false }
+      ]
+    },
+    {
+      "slug": "members",
+      "name": "Team Members",
+      "icon": "Users",
+      "fields": [
+        { "slug": "name", "name": "Name", "field_type": "text", "required": true },
+        { "slug": "email", "name": "Email", "field_type": "text", "required": false },
+        {
+          "slug": "role",
+          "name": "Role",
+          "field_type": "select",
+          "required": false,
+          "validation": { "options": ["developer", "designer", "manager", "stakeholder"] }
+        }
+      ]
+    }
+  ],
+  "reports": [
+    {
+      "name": "Tasks by status",
+      "description": "Count of tasks grouped by status",
+      "config": {
+        "type": "table",
+        "tableSlug": "tasks",
+        "groupBy": ["status"],
+        "aggregates": [{ "field": "id", "fn": "count" }],
+        "sort": "status",
+        "order": "asc",
+        "limit": 50
+      }
+    },
+    {
+      "name": "Tasks by project",
+      "description": "Count of tasks per project",
+      "config": {
+        "type": "table",
+        "tableSlug": "tasks",
+        "groupBy": ["project_id"],
+        "aggregates": [{ "field": "id", "fn": "count" }],
+        "sort": "project_id",
+        "order": "asc",
+        "limit": 50
+      }
+    }
+  ],
+  "workflows": [
+    {
+      "name": "task.completed → notify",
+      "definition": {
+        "nodes": [
+          {
+            "id": "trigger-1",
+            "type": "trigger",
+            "data": { "trigger_type": "event", "trigger_event_type": "task.completed" },
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "id": "email-1",
+            "type": "email",
+            "data": {
+              "to_mode": "users",
+              "users_role_filter": "owner,admin",
+              "subject": "Task completed: {{record.name}}",
+              "body": "Task {{record.name}} has been marked as done. View in Aurora Studio."
+            },
+            "position": { "x": 240, "y": 0 }
+          }
+        ],
+        "edges": [{ "id": "e1", "source": "trigger-1", "target": "email-1" }]
+      }
+    }
+  ]
+}
