@@ -5,13 +5,36 @@ const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? "Hippo Projects";
 export function Footer() {
   return (
     <footer className="border-t border-aurora-border mt-auto">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="flex flex-wrap justify-between items-center gap-4">
-          <p className="text-aurora-muted text-sm">{siteName} — Kanban boards & task management</p>
-          <div className="flex gap-6 text-sm text-aurora-muted">
-            <Link href="/board" className="hover:text-white">Board</Link>
-            <Link href="/projects" className="hover:text-white">Projects</Link>
-            <Link href="/members" className="hover:text-white">Team</Link>
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <p className="text-lg font-semibold mb-2">{siteName}</p>
+            <p className="text-aurora-muted text-sm">
+              Kanban boards and task management. Ship with clarity.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-3">Explore</h3>
+            <ul className="space-y-2 text-sm text-aurora-muted">
+              <li><Link href="/board" className="hover:text-white">Board</Link></li>
+              <li><Link href="/projects" className="hover:text-white">Projects</Link></li>
+              <li><Link href="/members" className="hover:text-white">Team</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-3">Support</h3>
+            <ul className="space-y-2 text-sm text-aurora-muted">
+              <li><Link href="/board" className="hover:text-white">Board</Link></li>
+              <li><Link href="/projects" className="hover:text-white">Projects</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-3">Company</h3>
+            <ul className="space-y-2 text-sm text-aurora-muted">
+              <li><Link href="/" className="hover:text-white">About</Link></li>
+              <li><Link href="/" className="hover:text-white">Privacy</Link></li>
+              <li><Link href="/" className="hover:text-white">Terms</Link></li>
+            </ul>
           </div>
         </div>
       </div>

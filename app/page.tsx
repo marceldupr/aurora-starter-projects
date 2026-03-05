@@ -23,13 +23,44 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
-      <header className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Project Management</h1>
-        <p className="text-aurora-muted text-lg max-w-2xl">
-          Organize work with Kanban boards. Track tasks from To Do to Done.
-        </p>
-      </header>
+    <div className="max-w-7xl mx-auto">
+      {/* Hero */}
+      <section className="relative py-24 sm:py-32 px-4 sm:px-6 overflow-hidden min-h-[360px]">
+        <div className="absolute inset-0 bg-gradient-to-b from-aurora-surface/40 to-transparent" />
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage:
+              "url(https://picsum.photos/seed/aurora-projects-hero/1920/1080)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 text-white drop-shadow-2xl">
+            Organize work with Kanban
+          </h1>
+          <p className="text-lg sm:text-xl text-white/90 mb-10 drop-shadow max-w-2xl">
+            Track tasks from To Do to Done. Collaborate with your team and ship with clarity.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href="/board"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-component bg-aurora-surface border border-aurora-border hover:bg-aurora-surface-hover hover:border-aurora-accent/30 transition-all font-semibold"
+            >
+              Open board
+            </Link>
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-component border-2 border-aurora-accent/50 text-aurora-accent font-semibold hover:bg-aurora-accent/10 transition-all"
+            >
+              View projects
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
         <Link
@@ -96,6 +127,7 @@ export default async function HomePage() {
           </ul>
         </div>
       ) : null}
+      </div>
     </div>
   );
 }
